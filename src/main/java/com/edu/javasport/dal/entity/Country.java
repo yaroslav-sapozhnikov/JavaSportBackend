@@ -31,34 +31,4 @@ public class Country {
         this.name = createCountryDto.name;
         this.shortName = createCountryDto.shortName;
     }
-
-    public String getShortName() {
-        return shortName;
-    }
-
-    public void setShortName(String shortName) {
-        this.shortName = shortName;
-    }
-
-    public List<League> getLeagues() { return leagues; }
-
-    public void setLeagues(List<League> leagues) {
-        this.leagues = leagues;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 }
