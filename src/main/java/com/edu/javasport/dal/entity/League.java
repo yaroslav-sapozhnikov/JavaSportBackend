@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @NoArgsConstructor
@@ -19,10 +20,13 @@ public class League {
 
     private String name;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "country", referencedColumnName = "id")
     private Country country;
+
+    @JsonBackReference(value = "teams")
+    @OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
+    private List<Team> teams;
 
     public League (CreateLeagueDto createLeagueDto) {
         this.name = createLeagueDto.name;

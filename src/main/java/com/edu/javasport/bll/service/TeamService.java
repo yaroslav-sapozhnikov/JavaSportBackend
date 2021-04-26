@@ -1,12 +1,15 @@
 package com.edu.javasport.bll.service;
 
+import com.edu.javasport.bll.constants.LeagueConstants;
 import com.edu.javasport.bll.constants.TeamConstants;
 import com.edu.javasport.bll.errors.GeneralErrors;
+import com.edu.javasport.bll.errors.LeagueErrors;
 import com.edu.javasport.bll.errors.TeamErrors;
 import com.edu.javasport.dal.entity.Country;
 import com.edu.javasport.dal.entity.League;
 import com.edu.javasport.dal.entity.Team;
 import com.edu.javasport.dal.repository.CountryRepository;
+import com.edu.javasport.dal.repository.LeagueRepository;
 import com.edu.javasport.dal.repository.TeamRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +26,7 @@ public class TeamService {
     private TeamRepository teamRepository;
 
     @Autowired
-    private CountryRepository countryRepository;
+    private LeagueRepository leagueRepository;
 
     public String createTeam (Team team) {
 
@@ -32,15 +35,15 @@ public class TeamService {
         Example<Team> teamNameExample = Example.of(teamName);
         Optional<Team> teamNameOptional = this.teamRepository.findOne(teamNameExample);
 
-        Long countryId = team.getLeague().getId();
-        Optional<Country> countryIdOptional = this.countryRepository.findById(countryId);
+        Long leagueId = team.getLeague().getId();
+        Optional<League> leagueIdOptional = this.leagueRepository.findById(leagueId);
 
-        if (teamNameOptional.isEmpty() && !countryIdOptional.isEmpty()) {
+        if (teamNameOptional.isEmpty() && !leagueIdOptional.isEmpty()) {
             teamRepository.save(team);
             return TeamConstants.TEAM_CREATED;
         } else if (!teamNameOptional.isEmpty()) {
             return TeamErrors.TEAM_ALREADY_EXISTS;
-        } else if (countryIdOptional.isEmpty()) {
+        } else if (leagueIdOptional.isEmpty()) {
             return TeamErrors.INVALID_LEAGUE_ID;
         }
         return GeneralErrors.UNKNOWN_ERROR;
@@ -80,5 +83,19 @@ public class TeamService {
         Example<Team> teamCountryExample = Example.of(teamLeague);
 
         return teamRepository.findAll(teamCountryExample);
+    }
+
+    public String editOneById(Team team) {
+        Team teamId = new Team();
+        teamId.setId(team.getId());
+        Example<Team> teamIdExample = Example.of(teamId);
+        Optional<Team> teamIdOptional = this.teamRepository.findOne(teamIdExample);
+
+        if (!teamIdOptional.isEmpty()) {
+            teamRepository.save(team);
+            return TeamConstants.TEAM_EDITED;
+        } else {
+            return TeamErrors.TEAM_DOES_NOT_EXIST;
+        }
     }
 }

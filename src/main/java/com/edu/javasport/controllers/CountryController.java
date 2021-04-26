@@ -73,12 +73,26 @@ public class CountryController {
         }
     }
 
-    @PostMapping("/country/delete/{id}")
+    @DeleteMapping("/country/delete/{id}")
     public ResponseEntity<?> deleteOneById (@PathVariable Long id) {
         final Response response = new Response();
         response.message = countryService.deleteById(id);
 
         if (response.message == CountryConstants.COUNTRY_DELETED) {
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.error = CountryErrors.COUNTRY_DOES_NOT_EXIST;
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("country/edit")
+    public ResponseEntity<?> editOne (@RequestBody Country country) {
+        final Response response = new Response();
+        String message = countryService.editOneById(country);
+
+        if (message == CountryConstants.COUNTRY_EDITED) {
+            response.message = CountryConstants.COUNTRY_EDITED;
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.error = CountryErrors.COUNTRY_DOES_NOT_EXIST;

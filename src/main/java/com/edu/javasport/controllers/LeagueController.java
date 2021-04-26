@@ -1,9 +1,12 @@
 package com.edu.javasport.controllers;
 
+import com.edu.javasport.bll.constants.CountryConstants;
 import com.edu.javasport.bll.constants.LeagueConstants;
+import com.edu.javasport.bll.errors.CountryErrors;
 import com.edu.javasport.bll.errors.GeneralErrors;
 import com.edu.javasport.bll.errors.LeagueErrors;
 import com.edu.javasport.bll.service.LeagueService;
+import com.edu.javasport.dal.entity.Country;
 import com.edu.javasport.dto.league.CreateLeagueDto;
 import com.edu.javasport.dal.entity.League;
 
@@ -29,6 +32,7 @@ public class LeagueController {
     @PostMapping("/league/create")
     public ResponseEntity<?> createLeague (@RequestBody CreateLeagueDto createLeagueDto) {
 
+        System.out.println(createLeagueDto.name);
         League league = new League(createLeagueDto);
         final Response response = new Response();
         String result = leagueService.createLeague(league);
@@ -75,7 +79,7 @@ public class LeagueController {
         }
     }
 
-    @PostMapping("/league/delete/{id}")
+    @DeleteMapping("/league/delete/{id}")
     public ResponseEntity<?> deleteOneById (@PathVariable Long id) {
 
         final Response response = new Response();
@@ -100,6 +104,20 @@ public class LeagueController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.error = LeagueErrors.LEAGUES_DO_NOT_EXIST;
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("league/edit")
+    public ResponseEntity<?> editOne (@RequestBody League league) {
+        final Response response = new Response();
+        String message = leagueService.editOneById(league);
+
+        if (message == LeagueConstants.LEAGUE_EDITED) {
+            response.message = LeagueConstants.LEAGUE_EDITED;
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.error = LeagueErrors.LEAGUE_DOES_NOT_EXIST;
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }

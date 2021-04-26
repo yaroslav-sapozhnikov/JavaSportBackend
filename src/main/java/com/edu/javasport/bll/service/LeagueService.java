@@ -1,6 +1,8 @@
 package com.edu.javasport.bll.service;
 
+import com.edu.javasport.bll.constants.CountryConstants;
 import com.edu.javasport.bll.constants.LeagueConstants;
+import com.edu.javasport.bll.errors.CountryErrors;
 import com.edu.javasport.bll.errors.GeneralErrors;
 import com.edu.javasport.bll.errors.LeagueErrors;
 import com.edu.javasport.dal.entity.Country;
@@ -78,5 +80,19 @@ public class LeagueService {
         Example<League> leagueCountryExample = Example.of(leagueCountry);
 
         return leagueRepository.findAll(leagueCountryExample);
+    }
+
+    public String editOneById(League league) {
+        League leagueId = new League();
+        leagueId.setId(league.getId());
+        Example<League> leagueIdExample = Example.of(leagueId);
+        Optional<League> leagueIdOptional = this.leagueRepository.findOne(leagueIdExample);
+
+        if (!leagueIdOptional.isEmpty()) {
+            leagueRepository.save(league);
+            return LeagueConstants.LEAGUE_EDITED;
+        } else {
+            return LeagueErrors.LEAGUE_DOES_NOT_EXIST;
+        }
     }
 }

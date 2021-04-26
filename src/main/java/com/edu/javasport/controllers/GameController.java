@@ -60,7 +60,7 @@ public class GameController {
         final Response response = new Response();
         response.message = game;
 
-        if (game != null && !game.isEmpty()) {
+        if (game != null && game.isPresent()) {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.error = GameErrors.GAME_DOES_NOT_EXIST;

@@ -1,7 +1,7 @@
 package com.edu.javasport.dal.entity;
 
 import com.edu.javasport.dto.detailedstatistics.CreateDetailedStatisticsDto;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

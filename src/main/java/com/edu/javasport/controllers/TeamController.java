@@ -1,9 +1,12 @@
 package com.edu.javasport.controllers;
 
+import com.edu.javasport.bll.constants.LeagueConstants;
 import com.edu.javasport.bll.constants.TeamConstants;
 import com.edu.javasport.bll.errors.GeneralErrors;
+import com.edu.javasport.bll.errors.LeagueErrors;
 import com.edu.javasport.bll.errors.TeamErrors;
 import com.edu.javasport.bll.service.TeamService;
+import com.edu.javasport.dal.entity.League;
 import com.edu.javasport.dal.entity.Team;
 import com.edu.javasport.dto.team.CreateTeamDto;
 import com.edu.javasport.dto.response.Response;
@@ -75,7 +78,7 @@ public class TeamController {
         }
     }
 
-    @PostMapping("/team/delete/{id}")
+    @DeleteMapping("/team/delete/{id}")
     public ResponseEntity<?> deleteOneById (@PathVariable Long id) {
 
         final Response response = new Response();
@@ -100,6 +103,20 @@ public class TeamController {
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.error = TeamErrors.TEAMS_DO_NOT_EXIST;
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PutMapping("team/edit")
+    public ResponseEntity<?> editOne (@RequestBody Team team) {
+        final Response response = new Response();
+        String message = teamService.editOneById(team);
+
+        if (message == TeamConstants.TEAM_EDITED) {
+            response.message = TeamConstants.TEAM_EDITED;
+            return new ResponseEntity<>(response, HttpStatus.OK);
+        } else {
+            response.error = TeamErrors.TEAM_DOES_NOT_EXIST;
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }

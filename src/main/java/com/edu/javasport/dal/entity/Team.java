@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
@@ -23,10 +24,17 @@ public class Team {
 
     private String shortName;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "league", referencedColumnName = "id")
     private League league;
+
+    @JsonBackReference(value = "guestGame")
+    @OneToMany(mappedBy = "guestTeam", cascade = CascadeType.ALL)
+    private List<Game> guestGame;
+
+    @JsonBackReference(value = "homeGame")
+    @OneToMany(mappedBy = "homeTeam", cascade = CascadeType.ALL)
+    private List<Game> homeGame;
 
     public Team (CreateTeamDto createTeamDto) {
         this.name = createTeamDto.name;

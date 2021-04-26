@@ -23,9 +23,9 @@ public class Country {
 
     private String shortName;
 
-    @JsonBackReference
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "country")
-    public List<League> leagues;
+    @JsonBackReference(value = "leagues")
+    @OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
+    private List<League> leagues;
 
     public Country (CreateCountryDto createCountryDto) {
         this.name = createCountryDto.name;

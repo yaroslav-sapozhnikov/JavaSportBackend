@@ -1,7 +1,7 @@
 package com.edu.javasport.dal.entity;
 
 import com.edu.javasport.dto.game.CreateGameDto;
-import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -28,10 +28,10 @@ public class Game {
     private int homeCount;
     private int guestCount;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private DetailedStatistics homeStatistics;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.REMOVE)
     private DetailedStatistics guestStatistics;
 
     public Game (CreateGameDto createGameDto) {

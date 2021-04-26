@@ -58,10 +58,10 @@ public class CountryService {
 
         Country countryId = new Country();
         countryId.setId(id);
-        Example<Country> countryNameExample = Example.of(countryId);
-        Optional<Country> countryNameOptional = this.countryRepository.findOne(countryNameExample);
+        Example<Country> countryIdExample = Example.of(countryId);
+        Optional<Country> countryIdOptional = this.countryRepository.findOne(countryIdExample);
 
-        if (!countryNameOptional.isEmpty()) {
+        if (!countryIdOptional.isEmpty()) {
             countryRepository.deleteById(id);
             return CountryConstants.COUNTRY_DELETED;
         } else {
@@ -79,5 +79,19 @@ public class CountryService {
         Example<League> leagueCountryExample = Example.of(leagueCountry);
 
         return leagueRepository.findAll(leagueCountryExample);
+    }
+
+    public String editOneById(Country country) {
+        Country countryId = new Country();
+        countryId.setId(country.getId());
+        Example<Country> countryIdExample = Example.of(countryId);
+        Optional<Country> countryIdOptional = this.countryRepository.findOne(countryIdExample);
+
+        if (!countryIdOptional.isEmpty()) {
+            countryRepository.save(country);
+            return CountryConstants.COUNTRY_EDITED;
+        } else {
+            return CountryErrors.COUNTRY_DOES_NOT_EXIST;
+        }
     }
 }
