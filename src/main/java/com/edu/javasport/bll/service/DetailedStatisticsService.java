@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,9 +24,9 @@ public class DetailedStatisticsService {
     public String createDetailedStatistics(CreateDetailedStatisticsDto createDetailedStatisticsDto) {
 
         DetailedStatistics detailedStatistics = new DetailedStatistics(createDetailedStatisticsDto);
-        detailedStatisticsRepository.save(detailedStatistics);
+        String id = detailedStatisticsRepository.save(detailedStatistics).getId().toString();
 
-        return DetailedStatisticsConstants.DETAILED_STATISTICS_CREATED;
+        return id;
     }
 
     public List<DetailedStatistics> getAll() {

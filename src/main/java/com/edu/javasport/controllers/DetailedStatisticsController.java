@@ -32,19 +32,22 @@ public class DetailedStatisticsController {
         final Response response = new Response();
         String result = detailedStatisticsService.createDetailedStatistics(createDetailedStatisticsDto);
 
-        if (result == DetailedStatisticsConstants.DETAILED_STATISTICS_CREATED) {
-            response.message = result;
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } else if (result == DetailedStatisticsErrors.DETAILED_STATISTICS_ALREADY_EXISTS) {
-            response.error= result;
-            return new ResponseEntity<>(response, HttpStatus.FOUND);
-        } else if (result == DetailedStatisticsErrors.INVALID_GAME_ID) {
-            response.error = result;
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        } else {
-            response.error = GeneralErrors.UNKNOWN_ERROR;
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        response.message = result;
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+
+//        if (result == DetailedStatisticsConstants.DETAILED_STATISTICS_CREATED) {
+//            response.message = result;
+//            return new ResponseEntity<>(response, HttpStatus.CREATED);
+//        } else if (result == DetailedStatisticsErrors.DETAILED_STATISTICS_ALREADY_EXISTS) {
+//            response.error= result;
+//            return new ResponseEntity<>(response, HttpStatus.FOUND);
+//        } else if (result == DetailedStatisticsErrors.INVALID_GAME_ID) {
+//            response.error = result;
+//            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+//        } else {
+//            response.error = GeneralErrors.UNKNOWN_ERROR;
+//            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
 
 
     }

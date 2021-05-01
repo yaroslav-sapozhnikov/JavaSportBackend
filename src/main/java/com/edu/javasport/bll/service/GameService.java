@@ -39,11 +39,12 @@ public class GameService {
     }
 
     public String deleteById(Long id) {
+        System.out.println(id);
 
         Game gameId = new Game();
         gameId.setId(id);
         Example<Game> gameNameExample = Example.of(gameId);
-        Optional<Game> gameNameOptional = this.gameRepository.findOne(gameNameExample);
+        Optional<Game> gameNameOptional = this.gameRepository.findById(id);
 
         if (!gameNameOptional.isEmpty()) {
             gameRepository.deleteById(id);

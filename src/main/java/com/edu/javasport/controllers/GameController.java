@@ -68,12 +68,13 @@ public class GameController {
         }
     }
 
-    @PostMapping("/game/delete/{id}")
+    @DeleteMapping("/game/delete/{id}")
     public ResponseEntity<?> deleteOneById (@PathVariable Long id) {
         final Response response = new Response();
-        response.message = gameService.deleteById(id);
+        String message = gameService.deleteById(id);
 
-        if (response.message == GameConstants.GAME_DELETED) {
+        if (message == GameConstants.GAME_DELETED) {
+            response.message = message;
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
             response.error = GameErrors.GAME_DOES_NOT_EXIST;
